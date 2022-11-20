@@ -2,7 +2,11 @@
 
 import { readFileSync } from "fs";
 import { Command } from "commander";
-import { Library, Document } from "@apicurio/data-models";
+import {
+  Library,
+  Document,
+  LocalReferenceResolver,
+} from "@apicurio/data-models";
 import { exit } from "process";
 
 const program = new Command();
@@ -18,6 +22,9 @@ program.parse(process.argv);
 
 // Get the OpenAPI document
 const openApiData: string = readFileSync(program.args[0], "utf8");
+
+const resolver = new LocalReferenceResolver();
+Library.addReferenceResolver(resolver);
 
 // Use the library util to create a data model instance from the given
 // data.  This will convert from the source string into an instance of
