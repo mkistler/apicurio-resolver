@@ -32,4 +32,6 @@ if (problems.length > 0) {
   exit(1);
 }
 
-console.log(JSON.stringify(Library.writeNode(document), null, 2));
+const resolved = Library.dereferenceDocument(document);
+
+console.log(JSON.stringify(Library.writeNode(resolved), null, 2));
