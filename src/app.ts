@@ -2,7 +2,11 @@
 
 import { readFileSync } from "fs";
 import { Command } from "commander";
-import { Library, Document } from "@apicurio/data-models";
+import {
+  Library,
+  Document,
+  LocalReferenceResolver,
+} from "@apicurio/data-models";
 import { exit } from "process";
 
 const program = new Command();
@@ -32,4 +36,7 @@ if (problems.length > 0) {
   exit(1);
 }
 
-console.log(JSON.stringify(Library.writeNode(document), null, 2));
+const resolver = new LocalReferenceResolver();
+const resolved = Library.dereferenceDocument(document, resolver);
+
+console.log(JSON.stringify(Library.writeNode(resolved), null, 2));
